@@ -3,9 +3,7 @@ import {v4 as uuid} from 'uuid'
 import InputModal from './InputModal'
 import LsitOfTodos from './LsitOfTodos'
 function TodoPanel() {
-  const [modalInfo, setModalInfo] = useState({
-
-  })
+  
   const [clicked, setClicked] = useState(false)
   const [data, setData] = useState([{
     id:uuid(),
@@ -13,7 +11,7 @@ function TodoPanel() {
     title: 'First Task',
     description: "It's first Task",
   }])
-  console.log(data)
+  
   const [inputValue, setInputValue] = useState({
     id: uuid(),
     date: '',
