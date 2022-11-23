@@ -20,11 +20,10 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
     onEdited(newValue.id, newValue) 
     setClicked(false);  
     setEdit(true);
-}, [onEdited,setClicked, newValue])
+}, [ newValue])
 
   const handleChange = (event) => {
-    const {name, value} = event.target
-  
+    const {name, value} = event.target  
     setInputValue(prevState => ({
       ...prevState,
       [name]:value

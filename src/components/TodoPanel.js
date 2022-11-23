@@ -39,13 +39,13 @@ function TodoPanel() {
 
   const onEdited = (id, value) =>{
     console.log(value)
-    setData(data.map((task) => task.id === id ? ({
+    setData(
+      data.map((task) => task.id === id ? ({
       
-      ...task,
-      date: value.date,
-      title: value.title,
-      description: value.description}, console.log(task))
-     : task))
+        ...task,
+       ...value}, console.log(typeof task))
+       : task))
+      
   }
 
   console.log(data)
