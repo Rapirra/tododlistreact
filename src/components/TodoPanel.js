@@ -11,14 +11,13 @@ function TodoPanel() {
     title: 'First Task',
     description: "It's first Task",
   }])
-  
-  const [inputValue, setInputValue] = useState({
-    id: uuid(),
-    date: '',
-    title: '',
-    description: ''
-  })
+  const [isEdit, setEdit] = useState(false)
+  const [selectedId, setSelectedId] = useState('')
 
+
+  const onAdd = (inputValue) => {
+    setData(prevState=>[...prevState, {...inputValue}])
+  }
   const handleClick = () =>{
       setClicked(!clicked)
   }
@@ -26,7 +25,31 @@ function TodoPanel() {
   const onRemove = (value) => {
     setData(data.filter((task) => task.id !== value))
   }
-    
+  const [newValue, setNewValue] = useState({})
+  // let newValue = {}
+  const onEdit=(id) => {
+    setClicked(true)
+    setSelectedId(id)
+    setEdit(true)
+    const req = data.filter((item)=>item.id === id)
+    req.forEach(item => (
+      setNewValue({...item})
+    ))
+  }
+
+  const onEdited = (id, value) =>{
+    console.log(value)
+    setData(data.map((task) => task.id === id ? ({
+      
+      ...task,
+      date: value.date,
+      title: value.title,
+      description: value.description}, console.log(task))
+     : task))
+  }
+
+  console.log(data)
+
   return (
     <div className='container mt-[15%] mx-auto  border rounded-3xl text-center p-7 bg-white '>
       <button onClick={handleClick} className='text-lg border rounded-lg p-1'>Create</button>
@@ -35,11 +58,18 @@ function TodoPanel() {
         clicked ? <InputModal 
           clicked={clicked} 
           setClicked={setClicked} 
-          data={data} setData={setData}
+          data={data} 
           onRemove={onRemove}
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          /> : <div>No panel</div>
+          onAdd={onAdd}
+          onEdit={onEdit}
+          selectedId={selectedId}
+          newValue={newValue}
+          isEdit={isEdit}
+          onEdited ={onEdited}
+          setNewValue={setNewValue}
+          setEdit={setEdit}
+          /> : 
+          <div>No panel</div>
       }
 
       {
@@ -52,9 +82,9 @@ function TodoPanel() {
           onRemove={onRemove}
           setClicked={setClicked}
           data={data}
-          
-          inputValue={inputValue}
-          setInputValue={setInputValue}
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+          onEdit={onEdit}
           />
 
         ))
