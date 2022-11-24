@@ -16,20 +16,29 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
   const errRef = useRef('')
   const textRef = useRef('')
   const validate = () => {
-    (inputValue.date.length != 0 && inputValue.title.length != 0 && inputValue.description.length != 0 )?  
-    setValid(true) 
-    : 
-    setValid(false)
+   if (inputValue.date.length != 0 && inputValue.title.length != 0 && inputValue.description.length != 0 ){ 
+    return true
+   }else { 
+    return false
+   }        
   }
+  useEffect(() => {
+    setValid(validate())
+    console.log(isValid)
+  })
 
   const onAddMemo = useCallback(() => {  
-    validate();
     console.log(isValid)
-    isValid ? (onAdd(inputValue, false))  : setError('Fill all the fields')      
-}, [inputValue])
-  useEffect(() => {
-    console.log(isValid)
-  }, [onAddMemo])
+    if (isValid){
+      (onAdd(inputValue));
+      setClicked(false);
+      setError('');
+    } else {
+      console.log(isValid)
+    setError('Fill all the fields');
+    }
+}, [inputValue, isValid, onAdd, setError,setClicked])
+ 
 
   const handleChange = (event) => {
     const {name, value} = event.target  

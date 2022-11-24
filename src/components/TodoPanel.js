@@ -15,9 +15,9 @@ function TodoPanel() {
   const [selectedId, setSelectedId] = useState('')
 
 
-  const onAdd = (inputValue,click ) => {
+  const onAdd = (inputValue ) => {
     setData(prevState=>[...prevState, {...inputValue}]);
-    setClicked(click)
+    
   }
   const handleClick = () =>{
       setClicked(!clicked)
