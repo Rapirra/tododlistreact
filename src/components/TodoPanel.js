@@ -10,11 +10,12 @@ function TodoPanel() {
     date: "2022-11-08",
     title: 'First Task',
     description: "It's first Task",
+    file: {}
   }])
   const [isEdit, setEdit] = useState(false)
   const [selectedId, setSelectedId] = useState('')
-
-
+  const [upload, setUploaded] = useState()
+  const [completed, setCompleted] = useState(false)
   const onAdd = (inputValue ) => {
     setData(prevState=>[...prevState, {...inputValue}]);
     
@@ -39,19 +40,17 @@ function TodoPanel() {
   }
 
   const onEdited = (id, value) =>{
-    console.log(value)
     let array = data.map((task) => task.id === id ?  task : console.log(0))
     array.forEach(el=>(
       el.date = value.date,
       el.title=value.title,
-      el.description=value.description
+      el.description=value.description,
+      el.file = value.file
     ))
     setData(prevState=>
       prevState,
       [...array])   
   }
-
-  console.log(data)
 
   return (
     <div className='container mt-[15%] mx-auto  border rounded-3xl text-center p-7 bg-white '>
@@ -71,28 +70,36 @@ function TodoPanel() {
           onEdited ={onEdited}
           setNewValue={setNewValue}
           setEdit={setEdit}
+          upload={upload}
+          setUploaded={setUploaded}
+          completed={completed}
+          setCompleted={setCompleted}
           /> : 
-          <div></div>
+          <div>No Task Added</div>
       }
 
       {
         data.map((el) => (
           <LsitOfTodos 
+          key={el.id}
           id={el.id}
           date={el.date}
           title={el.title}
           description={el.description}
+          file={el.file}
           onRemove={onRemove}
           setClicked={setClicked}
           data={data}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
           onEdit={onEdit}
+          upload={upload}
+          completed={completed}
+          setCompleted={setCompleted}
           />
 
         ))
-      }
-      
+      }     
 
     </div>
   )

@@ -25,6 +25,9 @@
   .task-panel input{
     @apply focus:outline-none
   }
+  .btns-panel button{
+    @apply outline
+  }
 }
 body {
   margin: 0;
