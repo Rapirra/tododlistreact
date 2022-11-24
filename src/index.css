@@ -8,7 +8,7 @@
     @apply bg-green-300
   }
   input{
-    @apply w-full border border-slate-300 rounded-sm
+    @apply w-full border border-slate-300 rounded-sm capitalize
   }
   .btn-panel button{
     @apply mr-4 w-8 h-8
