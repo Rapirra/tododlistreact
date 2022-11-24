@@ -10,6 +10,7 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
     title: '',
     description: ''
   })
+
   const editInputRef = useRef(null);
   const onAddMemo = useCallback(() => {    
       onAdd(inputValue);
@@ -27,29 +28,30 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
   }
   const handleNewChange = (event) => {
     const {name, value} = event.target  
-    console.log(name)
-    console.log(value)
     setNewValue(prevState => ({
       ...prevState,
       [name]:value
     }))  
-    console.log(newValue)  
   }
 
   const onSaveMemo = useCallback(() => {    
     onEdited(newValue.id, newValue) 
-    console.log(newValue.id)
-    console.log(newValue)
     setClicked(false);  
-    setEdit(true);
+    setEdit(false);
 }, [ newValue])
+
+  const onClose = ()=>{
+    setClicked(false);  
+    setEdit(false);
+  }
   
   return (
     <div className=' bg-black bg-opacity-40 fixed inset-0 flex justify-center items-center h-full' key={newValue.id}>
-        <button onClick={() => setClicked(!clicked)} className='absolute top-[25%] bg-white border  w-[50px] h-[50px]'><i className="fa-solid fa-xmark"></i></button>
+        <button onClick={onClose} className='absolute top-[25%] bg-white border  w-[50px] h-[50px]'><i className="fa-solid fa-xmark"></i></button>
         <div className="content">   
           {isEdit ? 
           <div>
+
             <label htmlFor="">Date <input type="date" ref={editInputRef}  name="date" value={newValue.date || ''} onChange={handleNewChange}/></label>
           <label htmlFor="">Title<input type="text" name="title" ref={editInputRef} value={newValue.title || ''}  onChange={handleNewChange}/></label>
           <label htmlFor="">Description</label>

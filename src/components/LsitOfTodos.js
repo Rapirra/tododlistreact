@@ -11,13 +11,11 @@ function LsitOfTodos({id, date, title, description, onRemove, setClicked, select
   const [expired, setExpired ] = useState(false)
   dayjs.extend(LocalizedFormat)
   dayjs.extend(CustomParseFormat)
-  const currentDate = dayjs().format('llll')
-  const t = date
+  const today = dayjs(new Date());
+  const gotDate = dayjs(date);
 
   useEffect(() => {
-    if (currentDate > date){
-      return setExpired(true)
-      }
+    setExpired(gotDate.isBefore(today))
   }, [date])
 
   return (

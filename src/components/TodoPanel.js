@@ -26,7 +26,7 @@ function TodoPanel() {
     setData(data.filter((task) => task.id !== value))
   }
   const [newValue, setNewValue] = useState({})
-  // let newValue = {}
+ 
   const onEdit=(id) => {
     setClicked(true)
     setSelectedId(id)
