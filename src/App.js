@@ -1,33 +1,38 @@
 import './App.css';
 import TodoPanel from './components/TodoPanel';
 import 'font-awesome/css/font-awesome.min.css';
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat'
-import CustomParseFormat from 'dayjs/plugin/customParseFormat'
-import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import { useState,useForm } from 'react';
+import { FileUploader } from './FileUploader';
+
 function App() {
+  // const obj = {
+  //   file:''  }
+  // const [img, setImg] = useState({})
+  // let formData = new FormData();
+  //  const onFileChange = (e) => {
+  //   if(e.target && e.target.files[0]){
+  //     formData.append('file', e.target.files[0]);
+  //   }
+  //  }
 
-// const obj = {
-//   date: '2022-08-08'
-// }
-
-//   dayjs.extend(LocalizedFormat)
-//   dayjs.extend(CustomParseFormat)
-//   const currentDate = dayjs().format('llll')
-
-
-//   const [check, setCheck] = useState(false)
-
-
-// useEffect(() =>{
-//   if (currentDate > obj.date){
-//     // return setCheck(true)
-//   }
-// }, []) 
+  //  const SubmitFileData = () =>{
+  //   axios.post(
+  //     'https://v2.convertapi.com/upload',
+  //     {formData}
+  //   )
+  //   .then(res => res.json())
+  //   .then(data => setImg(data))
+  //   .catch(error=>console.log(error))
+  //  }
   return (
     <div className="App " >
-      {/* <h3 style={check ? {textDecoration: "line-through"} : null}>Hell no</h3> */}
+      {/* <input type="file" name="file_upload" onChange={onFileChange} />
+      <button onClick={SubmitFileData}>Submmit</button>
+      */}
       <TodoPanel />
+      {/* <FileUploader /> */}
     </div>
   );
 }

@@ -39,13 +39,15 @@ function TodoPanel() {
 
   const onEdited = (id, value) =>{
     console.log(value)
-    setData(
-      data.map((task) => task.id === id ? ({
-      
-        ...task,
-       ...value}, console.log(typeof task))
-       : task))
-      
+    let array = data.map((task) => task.id === id ?  task : console.log(0))
+    array.forEach(el=>(
+      el.date = value.date,
+      el.title=value.title,
+      el.description=value.description
+    ))
+    setData(prevState=>
+      prevState,
+      [...array])   
   }
 
   console.log(data)
@@ -69,7 +71,7 @@ function TodoPanel() {
           setNewValue={setNewValue}
           setEdit={setEdit}
           /> : 
-          <div>No panel</div>
+          <div></div>
       }
 
       {

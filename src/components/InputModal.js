@@ -14,13 +14,9 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
   const onAddMemo = useCallback(() => {    
       onAdd(inputValue);
       setClicked(false);   
-  }, [inputValue, onAdd,setClicked])
+  }, [inputValue])
 
-  const onSaveMemo = useCallback(() => {    
-    onEdited(newValue.id, newValue) 
-    setClicked(false);  
-    setEdit(true);
-}, [ newValue])
+ 
 
   const handleChange = (event) => {
     const {name, value} = event.target  
@@ -31,12 +27,22 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
   }
   const handleNewChange = (event) => {
     const {name, value} = event.target  
+    console.log(name)
+    console.log(value)
     setNewValue(prevState => ({
       ...prevState,
       [name]:value
     }))  
     console.log(newValue)  
   }
+
+  const onSaveMemo = useCallback(() => {    
+    onEdited(newValue.id, newValue) 
+    console.log(newValue.id)
+    console.log(newValue)
+    setClicked(false);  
+    setEdit(true);
+}, [ newValue])
   
   return (
     <div className=' bg-black bg-opacity-40 fixed inset-0 flex justify-center items-center h-full' key={newValue.id}>
