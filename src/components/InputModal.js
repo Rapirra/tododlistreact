@@ -2,7 +2,7 @@
 import React,{ useEffect, useState,useRef, useCallback, useLayoutEffect } from 'react'
 import {v4 as uuid} from 'uuid' 
 
-function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isEdit, setNewValue, onEdited, setEdit, upload, setUploaded, completed, setCompleted}) {
+function InputModal({  setClicked,  onRemove,  onAdd ,newValue, isEdit, setNewValue, onEdited, setEdit, upload, setUploaded, completed, setCompleted, setSelectedId, selectedId}) {
   const [isValid, setValid] = useState(false)
   const editInputRef = useRef(null)
   const filePicker = useRef(null)
@@ -39,13 +39,13 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
 
     const formData = new FormData();
     formData.append('file', selectedFile)
-
     const res = await fetch('https://v2.convertapi.com/upload', {
       method: "POST",
       body: formData
     });
     const data = await res.json()
     setUploaded(data)
+    console.log(inputValue.file)
    }
    
   useEffect(() => {
@@ -69,9 +69,15 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
     }
 }, [inputValue, isValid, onAdd, setError,setClicked])
  
+  const handleDone = () =>{
+    setCompleted(!completed);
+    setClicked(false);
+    setEdit(false);
+  }
 
   const handleChange = (event) => {
     const {name, value} = event.target  
+    
     setInputValue(prevState => ({
       ...prevState,
       [name]:value
@@ -84,7 +90,11 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
       [name]:value
     }))  
   }
-
+  const handleDelete = () => {
+    setSelectedId(inputValue.id)
+    onRemove(selectedId);
+    setEdit(false);
+  }
   const onSaveMemo = useCallback(() => {    
     onEdited(newValue.id, newValue) 
     setClicked(false);  
@@ -105,7 +115,7 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
             <label htmlFor="">Date <input type="date" required="required" ref={editInputRef}  name="date" value={newValue.date || ''} onChange={handleNewChange}/></label>
             <label htmlFor="">Title<input type="text" name="title" required="required" ref={editInputRef} value={newValue.title || ''}  onChange={handleNewChange}/></label>
             <label htmlFor="">Description</label>
-            <input type="file" className='w-0 h-0 bg-transparent' ref={filePicker} name="file"  onChange={handleFile} />
+            <input type="file" className='w-0 h-0 bg-transparent' ref={filePicker} name="file"  value={inputValue.file} onChange={handleFile} />
             <div className="flex flex-col">
               <textarea  id="" cols="30" rows="5" ref={editInputRef}  required="required" name="description"  value={newValue.description || ''} onChange={handleNewChange}></textarea>
               <button className='mt-[30px] border border-black p-1' onClick={onSaveMemo}> Save</button>
@@ -116,7 +126,7 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
               <label htmlFor="">Date <input type="date" required="required" name="date"  value={inputValue.date || ''} onChange={handleChange}/></label>
               <label htmlFor="">Title<input type="text" required="required" name="title" ref={textRef} value={inputValue.title || ''}  onChange={handleChange}/></label>
               <label htmlFor="">Description</label>
-              <input type="file" className='w-0 h-0 bg-transparent' ref={filePicker} name="file"  onChange={handleFile} />
+              <input type="file" className='w-0 h-0 bg-transparent' ref={filePicker} name="file"  onChange={handleFile} readOnly={true}/>
              <div className="flex flex-col">
               <textarea  id="" cols="30" rows="5" name="description" required="required" ref={errRef} value={inputValue.description || ''} onChange={handleChange}></textarea>
               <button className='mt-[30px] border border-black p-1 block' onClick={onAddMemo}> Add task</button>
@@ -125,9 +135,9 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
             </div> 
           }
           <div className="btns-panel flex justify-around w-full h-full my-3">
-              <button onClick={() => {setCompleted(!completed)}}>Done</button>
+              <button onClick={handleDone}>Done</button>
               <button className='w-fit' onClick={handlePick}>Attach file</button>
-              <button onClick={() => {onRemove(inputValue.id); setClicked(false)}}>Delete</button>
+              <button onClick={handleDelete}>Delete</button>
           </div>
          
       </div>

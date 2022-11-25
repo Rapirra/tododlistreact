@@ -23,15 +23,20 @@ function TodoPanel() {
   const handleClick = () =>{
       setClicked(!clicked)
   }
+
+  useEffect(() => {
+    console.log(data.length)
+  },[data])
+ 
  
   const onRemove = (value) => {
-    setData(data.filter((task) => task.id !== value))
+    setData(data.filter((task) => task.id !== value));
+    setClicked(false)
   }
   const [newValue, setNewValue] = useState({})
  
   const onEdit=(id) => {
     setClicked(true)
-    setSelectedId(id)
     setEdit(true)
     const req = data.filter((item)=>item.id === id)
     req.forEach(item => (
@@ -51,12 +56,13 @@ function TodoPanel() {
       prevState,
       [...array])   
   }
-
+  
   return (
     <div className='container mt-[15%] mx-auto  border rounded-3xl text-center p-7 bg-white '>
       <button onClick={handleClick} className='text-lg border rounded-lg p-1'>Create</button>
-
-     {
+      {
+        
+          
         clicked ? <InputModal 
           clicked={clicked} 
           setClicked={setClicked} 
@@ -74,8 +80,9 @@ function TodoPanel() {
           setUploaded={setUploaded}
           completed={completed}
           setCompleted={setCompleted}
+          setSelectedId={setSelectedId}
           /> : 
-          <div>No Task Added</div>
+          <div></div>
       }
 
       {
@@ -84,7 +91,7 @@ function TodoPanel() {
           key={el.id}
           id={el.id}
           date={el.date}
-          title={el.title}
+          title={el.title}          
           description={el.description}
           file={el.file}
           onRemove={onRemove}
@@ -96,10 +103,13 @@ function TodoPanel() {
           upload={upload}
           completed={completed}
           setCompleted={setCompleted}
+
           />
 
         ))
       }     
+     
+       
 
     </div>
   )
