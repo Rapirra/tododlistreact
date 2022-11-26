@@ -28,6 +28,9 @@
   .btns-panel button{
     @apply outline block
   }
+  input.checked{
+    @apply line-through
+  }
 }
 body {
   margin: 0;

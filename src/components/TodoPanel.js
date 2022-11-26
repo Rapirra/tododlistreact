@@ -18,6 +18,13 @@ function TodoPanel() {
     title: 'Second Task',
     description: "It's second Task",
     file: {}
+  },
+  {
+    id:uuid(),
+    date: "2022-12-22",
+    title: 'Third Task',
+    description: "It's second Task",
+    file: {}
   }])
   const [isEdit, setEdit] = useState(false)
   const [selectedId, setSelectedId] = useState('')
@@ -38,7 +45,7 @@ function TodoPanel() {
   }
   
   const [newValue, setNewValue] = useState({})
-  
+  console.log(data)
   
   const onEdit=(id) => {
     setClicked(true)
@@ -109,7 +116,7 @@ function TodoPanel() {
           upload={upload}
           completed={completed}
           setCompleted={setCompleted}
-
+          setData={setData}
           />
 
         ))
