@@ -1,6 +1,9 @@
 
 import React,{ useEffect, useState,useRef, useCallback, useLayoutEffect } from 'react'
 import {v4 as uuid} from 'uuid' 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
 
 function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isEdit, setNewValue, onEdited, setEdit, upload, setUploaded, completed, setCompleted}) {
   const [isValid, setValid] = useState(false)
@@ -29,32 +32,12 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
    }        
   }
 
-  
-  
-   
-  //  const handlePick = () => {
-
-  //   filePicker.current.click()
-  //   handleUpload()
-  //  }
-
-  //  useEffect(() => {
-  //   let b = {...upload}
-  //   setInputValue(prevState => ({
-  //     ...prevState,
-  //     file: {...b}
-  //   }))
-  //   console.log(inputValue.file)
-  // }, [upload])
-
-
   useEffect(() => {
     setValid(validate())
   })  
 
   
- 
-
+  
   const handleChange = (event) => {
     const {name, value} = event.target  
     setInputValue(prevState => ({
@@ -68,17 +51,8 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
       ...prevState,
       [name]:value
     }))  
-    // console.log("upload", upload)
-    // let t = {...upload}
-
-    // setNewValue(prevState => ({
-    //   ...prevState,
-    //   file: {...upload}
-    // }))
     
   }
-
- 
 
   const onClose = ()=>{
     setClicked(false);  
@@ -152,7 +126,7 @@ const onSaveMemo = useCallback(() => {
 }, [ newValue])
   return (
     <div className=' bg-black bg-opacity-40 fixed inset-0 flex justify-center items-center h-full' >
-        <button onClick={onClose} className='absolute top-[25%] bg-white border  w-[50px] h-[50px]'><i className="fa-solid fa-xmark"></i></button>
+        <button onClick={onClose} className='absolute top-[25%] bg-white border  w-[50px] h-[50px]'><FontAwesomeIcon icon={faXmark}/></button>
         <div className='content'>   
           {isEdit ? 
           <div key={newValue.id} ref={idRef}>
@@ -181,8 +155,8 @@ const onSaveMemo = useCallback(() => {
             </div> 
           }
           <div className="btns-panel flex justify-around w-full h-full my-3">
-              <button onClick={() => {setCompleted(!completed); setClicked(false); setEdit(false)}}>Done</button>
-              {/* <button className='w-fit' onClick={handlePick}>Attach file</button> */}
+             
+             
               <button onClick= {handleDelete}>Delete</button>
           </div>
          

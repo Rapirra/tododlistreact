@@ -20,13 +20,13 @@
     @apply text-[32px]
   }
   .content{
-    @apply border bg-gray-200 w-[600px] p-[30px] h-[400px] rounded-lg flex justify-between items-center flex-col
+    @apply border bg-gray-200 w-[700px] p-[30px] h-[450px] rounded-lg flex justify-between items-center flex-col
   }
   .task-panel input{
     @apply focus:outline-none
   }
   .btns-panel button{
-    @apply outline
+    @apply outline block
   }
 }
 body {

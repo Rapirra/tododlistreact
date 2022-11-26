@@ -36,8 +36,10 @@ function TodoPanel() {
     console.log(data)
     setClicked(false)
   }
+  
   const [newValue, setNewValue] = useState({})
- 
+  
+  
   const onEdit=(id) => {
     setClicked(true)
     setEdit(true)
