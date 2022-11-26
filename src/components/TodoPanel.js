@@ -11,6 +11,13 @@ function TodoPanel() {
     title: 'First Task',
     description: "It's first Task",
     file: {}
+  },
+  {
+    id:uuid(),
+    date: "2022-12-08",
+    title: 'Second Task',
+    description: "It's second Task",
+    file: {}
   }])
   const [isEdit, setEdit] = useState(false)
   const [selectedId, setSelectedId] = useState('')
@@ -30,7 +37,9 @@ function TodoPanel() {
  
  
   const onRemove = (value) => {
+    console.log(value)
     setData(data.filter((task) => task.id !== value));
+    console.log(data)
     setClicked(false)
   }
   const [newValue, setNewValue] = useState({})
@@ -45,12 +54,13 @@ function TodoPanel() {
   }
 
   const onEdited = (id, value) =>{
-    let array = data.map((task) => task.id === id ?  task : console.log(0))
+    console.log(id)
+    let array = data.filter((task) => task.id === id ?  task : console.log(data))
+    console.log(array)
     array.forEach(el=>(
       el.date = value.date,
       el.title=value.title,
-      el.description=value.description,
-      el.file = value.file
+      el.description=value.description
     ))
     setData(prevState=>
       prevState,
