@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
 
-function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isEdit, setNewValue, onEdited, setEdit, upload, setUploaded, completed, setCompleted}) {
+function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isEdit, setNewValue, onEdited, setEdit, upload, setUploaded, completed, setCompleted, }) {
   const [isValid, setValid] = useState(false)
   const editInputRef = useRef(null)
   const filePicker = useRef(null)
@@ -155,8 +155,6 @@ const onSaveMemo = useCallback(() => {
             </div> 
           }
           <div className="btns-panel flex justify-around w-full h-full my-3">
-             
-             
               <button onClick= {handleDelete}>Delete</button>
           </div>
          

@@ -29,7 +29,6 @@ function TodoPanel() {
   const [isEdit, setEdit] = useState(false)
   const [selectedId, setSelectedId] = useState('')
   const [upload, setUploaded] = useState()
-  const [completed, setCompleted] = useState(false)
   const onAdd = (inputValue ) => {
     setData(prevState=>[...prevState, {...inputValue}]);    
   }
@@ -91,8 +90,6 @@ function TodoPanel() {
           setEdit={setEdit}
           upload={upload}
           setUploaded={setUploaded}
-          completed={completed}
-          setCompleted={setCompleted}
           setSelectedId={setSelectedId}
           /> : 
           <div></div>
@@ -114,8 +111,6 @@ function TodoPanel() {
           setSelectedId={setSelectedId}
           onEdit={onEdit}
           upload={upload}
-          completed={completed}
-          setCompleted={setCompleted}
           setData={setData}
           />
 
