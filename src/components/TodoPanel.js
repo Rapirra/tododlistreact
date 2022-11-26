@@ -24,17 +24,11 @@ function TodoPanel() {
   const [upload, setUploaded] = useState()
   const [completed, setCompleted] = useState(false)
   const onAdd = (inputValue ) => {
-    setData(prevState=>[...prevState, {...inputValue}]);
-    
+    setData(prevState=>[...prevState, {...inputValue}]);    
   }
   const handleClick = () =>{
       setClicked(!clicked)
-  }
-
-  useEffect(() => {
-    console.log(data.length)
-  },[data])
- 
+  } 
  
   const onRemove = (value) => {
     console.log(value)
@@ -54,13 +48,13 @@ function TodoPanel() {
   }
 
   const onEdited = (id, value) =>{
-    console.log(id)
-    let array = data.filter((task) => task.id === id ?  task : console.log(data))
+    let array = data.filter((task) => task.id === id ?  task : console.log('error'))
     console.log(array)
     array.forEach(el=>(
       el.date = value.date,
       el.title=value.title,
-      el.description=value.description
+      el.description=value.description,
+      el.file=value.file
     ))
     setData(prevState=>
       prevState,

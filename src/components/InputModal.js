@@ -9,6 +9,7 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
   const [error, setError] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
   const [selectedId, setSelectedId] = useState('')
+  const [count, setCount] = useState(0)
   const [inputValue, setInputValue] = useState({
     id: uuid(),
     date: '',
@@ -19,6 +20,7 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
   const idRef = useRef(null)
   const errRef = useRef('')
   const textRef = useRef('')
+
   const validate = () => {
    if (inputValue.date.length != 0 && inputValue.title.length != 0 && inputValue.description.length != 0 ){ 
     return true
@@ -27,49 +29,30 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
    }        
   }
 
-  const handleFile = (event) => {
-    setSelectedFile(event.target.files[0])
-  }
-
-   const handleUpload = async() => {
-    if (!selectedFile) {
-      alert("Please select file");
-      return
-    };
-
-    const formData = new FormData();
-    formData.append('file', selectedFile)
-
-    const res = await fetch('https://v2.convertapi.com/upload', {
-      method: "POST",
-      body: formData
-    });
-    const data = await res.json()
-    setUploaded(data)
-   }
+  
+  
    
+  //  const handlePick = () => {
+
+  //   filePicker.current.click()
+  //   handleUpload()
+  //  }
+
+  //  useEffect(() => {
+  //   let b = {...upload}
+  //   setInputValue(prevState => ({
+  //     ...prevState,
+  //     file: {...b}
+  //   }))
+  //   console.log(inputValue.file)
+  // }, [upload])
+
+
   useEffect(() => {
     setValid(validate())
-  })
+  })  
 
-  useEffect(() => {
-    console.log(selectedId)
-  }, [selectedId])
-  const handlePick = () => {
-    filePicker.current.click()
-    handleUpload()
-   }
-
-  const onAddMemo = useCallback(() => {  
-    if (isValid){
-      (onAdd(inputValue));
-      setClicked(false);
-      setError('');
-    } else {
-      console.log(isValid)
-    setError('Fill all the fields');
-    }
-}, [inputValue, isValid, onAdd, setError,setClicked])
+  
  
 
   const handleChange = (event) => {
@@ -85,13 +68,17 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
       ...prevState,
       [name]:value
     }))  
+    // console.log("upload", upload)
+    // let t = {...upload}
+
+    // setNewValue(prevState => ({
+    //   ...prevState,
+    //   file: {...upload}
+    // }))
+    
   }
 
-  const onSaveMemo = useCallback(() => {    
-    onEdited(newValue.id, newValue) 
-    setClicked(false);  
-    setEdit(false);
-}, [ newValue])
+ 
 
   const onClose = ()=>{
     setClicked(false);  
@@ -102,16 +89,77 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
       onRemove(newValue.id);
       setEdit(false);
     }
+ 
+const handleUpload = async() => {
+ if (!selectedFile) {
+   alert("Please select file");
+   return
+ };
+ const formData = new FormData();
+ formData.append('file', selectedFile)
+ const res = await fetch('https://v2.convertapi.com/upload', {
+   method: "POST",
+   body: formData
+ });
+ const data = await res.json()
+ console.log("data", data)
+ setUploaded(data)
+}
+
+ const handleFile = async (event) => {   
+  setSelectedFile(event.target.files[count])
+  await handleUpload();
+  setCount(prevState=>prevState+1)
+  
+}
+const handleNewFile = async (event) => {    
+  setSelectedFile(event.target.files[count])
+  await handleUpload()
+  setCount(prevState=>prevState+1)
+}
+
+useEffect(() => {
+  setNewValue(prevState => ({
+    ...prevState,
+    file: {...upload}
+  }))
+  console.log("upload", upload)
+}, [upload])
+
+useEffect(() => {
+  setInputValue(prevState => ({
+    ...prevState,
+    file: {...upload}
+  }))
+}, [upload])
+
+const onAddMemo = useCallback(() => {  
+  if (isValid){
+    (onAdd(inputValue));
+    setClicked(false);
+    setError('');
+  } else {
+    console.log(isValid)
+  setError('Fill all the fields');
+  }
+  console.log(data)
+}, [inputValue, isValid, onAdd, setError,setClicked,data])
+
+const onSaveMemo = useCallback(() => {    
+  onEdited(newValue.id, newValue) 
+  setClicked(false);  
+  setEdit(false);
+}, [ newValue])
   return (
     <div className=' bg-black bg-opacity-40 fixed inset-0 flex justify-center items-center h-full' >
         <button onClick={onClose} className='absolute top-[25%] bg-white border  w-[50px] h-[50px]'><i className="fa-solid fa-xmark"></i></button>
         <div className='content'>   
           {isEdit ? 
-          <div key={newValue.id} ref={idRef} onClick={() => console.log(newValue.id)}>
+          <div key={newValue.id} ref={idRef}>
             <label htmlFor="">Date <input type="date" required="required" ref={editInputRef}  name="date" value={newValue.date || ''} onChange={handleNewChange}/></label>
             <label htmlFor="">Title<input type="text" name="title" required="required" ref={editInputRef} value={newValue.title || ''}  onChange={handleNewChange}/></label>
             <label htmlFor="">Description</label>
-            <input type="file" className='w-0 h-0 bg-transparent' ref={filePicker} name="file"  onChange={handleFile} />
+            <input type="file" ref={filePicker} name="file"  onChange={handleNewFile} />
             <div className="flex flex-col">
               <textarea  id="" cols="30" rows="5" ref={editInputRef}  required="required" name="description"  value={newValue.description || ''} onChange={handleNewChange}></textarea>
               <button className='mt-[30px] border border-black p-1' onClick={onSaveMemo}> Save</button>
@@ -123,9 +171,8 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
               <label htmlFor="">Date <input type="date" required="required" name="date"  value={inputValue.date || ''} onChange={handleChange}/></label>
               <label htmlFor="">Title<input type="text" required="required" name="title" ref={textRef} value={inputValue.title || ''}  onChange={handleChange}/></label>
               <label htmlFor="">Description</label>
-              <input type="file" className='w-0 h-0 bg-transparent' ref={filePicker} name="file"  onChange={handleFile} />
+              <input type="file"  ref={filePicker} name="file" onChange={handleFile} />
              <div className="flex flex-col">
-             {console.log(inputValue.id)}
               <textarea  id="" cols="30" rows="5" name="description" required="required" ref={errRef} value={inputValue.description || ''} onChange={handleChange}></textarea>
               <button className='mt-[30px] border border-black p-1 block' onClick={onAddMemo}> Add task</button>
              </div>
@@ -135,7 +182,7 @@ function InputModal({ clicked, setClicked, data, onRemove,  onAdd ,newValue, isE
           }
           <div className="btns-panel flex justify-around w-full h-full my-3">
               <button onClick={() => {setCompleted(!completed); setClicked(false); setEdit(false)}}>Done</button>
-              <button className='w-fit' onClick={handlePick}>Attach file</button>
+              {/* <button className='w-fit' onClick={handlePick}>Attach file</button> */}
               <button onClick= {handleDelete}>Delete</button>
           </div>
          
