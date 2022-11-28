@@ -77,31 +77,28 @@ const handleUpload = async() => {
  });
  const data = await res.json()
  console.log("data", data)
- setUploaded(data)
+  setUploaded(data)
+  console.log("upload", upload)
 }
 
  const handleFile = async (event) => {   
-  setSelectedFile(event.target.files[count])
-  await handleUpload();
-  setCount(prevState=>prevState+1)
-  
+  setSelectedFile(event.target.files[0])
+  console.log("selectedfile", selectedFile)
+   handleUpload();
+   console.log("upload", upload)
 }
 const handleNewFile = async (event) => {    
-  setSelectedFile(event.target.files[count])
+  setSelectedFile(event.target.files[0])
   await handleUpload()
-  setCount(prevState=>prevState+1)
 }
 
-useEffect(() => {
-  setNewValue(prevState => ({
-    ...prevState,
-    file: {...upload}
-  }))
-  console.log("upload", upload)
-}, [upload])
 
 useEffect(() => {
   setInputValue(prevState => ({
+    ...prevState,
+    file: {...upload}
+  }))
+  setNewValue(prevState => ({
     ...prevState,
     file: {...upload}
   }))
@@ -124,6 +121,7 @@ const onSaveMemo = useCallback(() => {
   setClicked(false);  
   setEdit(false);
 }, [ newValue])
+
   return (
     <div className=' bg-black bg-opacity-40 fixed inset-0 flex justify-center items-center h-full' >
         <button onClick={onClose} className='absolute top-[25%] bg-white border  w-[50px] h-[50px]'><FontAwesomeIcon icon={faXmark}/></button>

@@ -14,19 +14,22 @@ function LsitOfTodos({id, date, title, file, description, onRemove, setClicked, 
   const today = dayjs(new Date())
   const keyRef = useRef()
   const gotDate = dayjs(date);
-
+  
+  useEffect(() => {
+    console.log(file)
+  }, [file])
   useEffect(() => {
     setExpired(gotDate.isBefore(today))
   }, [date])
     
 
   return (
-    <div>      
+    <div>    
         <div className="task-panel flex flex-row justify-between" key={id}>
         <label>Date<h3 style={(completed || expired)  ? {textDecoration: "line-through"} : null} >{date}</h3></label>
         <label>Title<h3 style={(completed || expired)  ? {textDecoration: "line-through"} : null}>{title}</h3></label>
         <label>Description <h3 style={(completed || expired)  ? {textDecoration: "line-through"} : null}>{description}</h3></label>
-        {file.length >0 ? <h2 ref={keyRef}>File</h2> : <h2 ref={keyRef}>{file.FileName}</h2> }
+        <label htmlFor="">File {file.length >0 ? <h2 ref={keyRef}>File</h2> : <h2 ref={keyRef} className="overflow-hidden truncate w-[120px]">{file.FileName}</h2> }</label>
         <div className="btn-panel flex justify-center items-center ">
             <button onClick={() => {setCompleted(!completed)}}><FontAwesomeIcon icon={faCheck} /></button>
             <button onClick={() => { onEdit(id)}}><FontAwesomeIcon icon={faPencil} /></button>
